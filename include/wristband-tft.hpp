@@ -1,3 +1,4 @@
+#pragma once
 #include <Arduino.h>
 #include <TFT_eSPI.h>
 #include <SPI.h>
@@ -5,6 +6,8 @@
 #include <hal.hpp>
 
 #define SEG7_BACKGROUND 0x0821
+
+static TFT_eSPI tft = TFT_eSPI();
 
 void tftInit();
 void wifiManagerAdvice(const char *ap_name);
@@ -25,6 +28,7 @@ void msg(const char *message1, const char *message2, uint16_t color);
 void displayDate(const uint8_t day, const uint8_t month, const uint16_t year, bool utc);
 uint16_t displayHour(const uint8_t hour, const uint8_t minute, bool utc);
 uint16_t displayColon(uint16_t x, bool color, bool utc);
+void displayWiFiStatus(const bool on);
 void clearScreen();
 void drawBattery(float voltage, uint8_t percentage, bool charging);
 void initDrawBearing();

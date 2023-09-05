@@ -7,6 +7,7 @@
 #include "pages.hpp"
 #include "mpu.hpp"
 
+__attribute__((__used__))
 void setup()
 {
   Serial.begin(115200);
@@ -14,7 +15,9 @@ void setup()
   Wire.setClock(400000);
   initClock();
   tftInit();
+#ifndef OTA_ON
   deactivateWifi();
+#endif
   btStop();
   setupADC();
 #ifndef IMU_SKIP
@@ -24,10 +27,18 @@ void setup()
 #endif
   initButton();
   setupBattery();
+#ifdef OTA_ON
+  activateWifi();
+  setupOTA();
+#endif
 }
 
+__attribute__((__used__))
 void loop()
 {
   handleUi();
   updateBatteryChargeStatus();
+#ifdef OTA_ON
+  otaRunning();
+#endif
 }

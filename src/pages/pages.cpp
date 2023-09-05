@@ -48,7 +48,7 @@ void showPage()
   switch (page)
   {
   case 0:
-    max_time_out = 8000;
+    max_time_out = 15000;
     pageClock(initialLoad);
     break;
   case 1:
@@ -80,6 +80,10 @@ void showPage()
     pageOta(initialLoad);
     break;
   case 6:
+    max_time_out = 15000;
+    pageFancyClock(initialLoad);
+    break;    
+  case 7:
     handleSleep();
     break;
   }

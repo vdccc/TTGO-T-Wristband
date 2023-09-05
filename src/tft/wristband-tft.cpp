@@ -1,6 +1,6 @@
 #include "wristband-tft.hpp"
 
-TFT_eSPI tft = TFT_eSPI();
+// FIXME: tft is supposed to only be used here
 
 void tftInit()
 {
@@ -135,6 +135,17 @@ void clearScreen()
 {
   tft.fillScreen(TFT_BLACK);
   tft.setCursor(0, 0);
+}
+
+void displayWiFiStatus(const bool on)
+{
+  tft.setTextDatum(TL_DATUM);
+  tft.setTextColor(TFT_GREEN, TFT_BLACK);
+  tft.setCursor(80, 65);
+  if (on)
+    tft.print("wifi on ");
+  else
+    tft.print("wifi off");
 }
 
 void displayDate(const uint8_t day, const uint8_t month, const uint16_t year, bool utc)

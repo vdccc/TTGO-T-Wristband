@@ -1,4 +1,5 @@
 #include "pages/page-clock.hpp"
+#include "WiFiType.h"
 
 unsigned long clockRefresh = 0;
 bool colon = true;
@@ -23,6 +24,7 @@ void pageClock(bool initialLoad)
     oldMinute = current.minute;
     oldDay = current.day;
     clockRefresh = millis();
+    displayWiFiStatus(WiFi.getMode() & WIFI_STA);
   }
   else if (millis() - clockRefresh > 1000)
   {
@@ -40,6 +42,7 @@ void pageClock(bool initialLoad)
     }
     oldMinute = current.minute;
     oldDay = current.day;
+    displayWiFiStatus(WiFi.getMode() & WIFI_STA);
   }
 }
 

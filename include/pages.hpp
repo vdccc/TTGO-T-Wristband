@@ -6,6 +6,7 @@
 #include "pages/page-battery.hpp"
 #include "pages/page-bearing.hpp"
 #include "pages/page-temperature.hpp"
+#include "pages/page-fancy-clock.hpp"
 
 void handleUi();
 void increasePage();

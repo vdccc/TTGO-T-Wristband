@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <pcf8563.h>
+#include <ctime>
 #include "hal.hpp"
 #include "translations.hpp"
 
