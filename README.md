@@ -6,6 +6,11 @@ very modern non-multitasking os for t-wristband :^)
 
 `pio run`
 
+## WiFi settings
+
+Either use `-DOS_AP_NAME=<ssid>` `-DOS_AP_PASSWORD=<password>` in `build_flasg` in `platformio.ini`.
+Or just set them in `include/os/config.hpp`.
+
 ## upload over OTA
 
 Remember to set matching password in `include/os/ota.hpp` and `platformio.ini`.
