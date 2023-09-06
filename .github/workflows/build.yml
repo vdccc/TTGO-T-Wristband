@@ -1,0 +1,21 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker://infinitecoding/platformio-for-ci:latest
+        with:
+          args: pio run
+      - uses: actions/upload-artifact@v3
+        with:
+          name: firmware.bin
+          path: .pio/build/esp32devOTA/firmware.bin
+      - uses: actions/upload-artifact@v3
+        with:
+          name: partitions.bin
+          path: .pio/build/esp32devOTA/partitions.bin
