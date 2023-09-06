@@ -8,7 +8,7 @@ very modern non-multitasking os for t-wristband :^)
 
 ## WiFi settings
 
-Either use `-DOS_AP_NAME=<ssid>` `-DOS_AP_PASSWORD=<password>` in `build_flasg` in `platformio.ini`.
+Either use `-DOS_AP_NAME=\"<ssid>\"` `-DOS_AP_PASSWORD=\"<password>\"` in `build_flasg` in `platformio.ini`.
 Or just set them in `include/os/config.hpp`.
 
 ## upload over OTA
