@@ -1,5 +1,7 @@
 # Sepples-os for TTGO-Wrist-Band
 
+[![Build](https://github.com/vdccc/TTGO-T-Wristband/actions/workflows/build.yml/badge.svg)](https://github.com/vdccc/TTGO-T-Wristband/actions/workflows/build.yml)
+
 very modern non-multitasking os for t-wristband :^)
 
 ## build 
