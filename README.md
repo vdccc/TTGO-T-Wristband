@@ -26,4 +26,4 @@ Currently there is no page to display wristband IP so you have to guess :^), set
 
 Base class for page is `include/os/pages/page.hpp`.
 Example class is `include/os/pages/basic_debug.hpp`.
-Register it in `os/src/pages.cpp` `void init()` function.
+Register it in `src/os/pages.cpp` `Pages::Pages()` constructor.
