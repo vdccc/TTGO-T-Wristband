@@ -1,21 +1,23 @@
 #pragma once
 
 #include <ArduinoOTA.h>
-#include <functional>
 #include <esp_system.h>
+#include <functional>
+#include <utility>
 
-typedef ota_error_t otaError;
+using otaError = ota_error_t;
 
 class OTA {
 public:
   OTA(std::function<void()> start,
       std::function<void(unsigned int, unsigned int)> progress,
       std::function<void(otaError)> error)
-      : startCallback(start), progressCallback(progress), errorCallback(error) {};
+      : startCallback(std::move(start)), progressCallback(std::move(progress)),
+        errorCallback(std::move(error)){};
 
   void init();
-  void run();
-  otaError getLastError();
+  static void run();
+  auto getLastError() -> otaError;
 
 private:
   otaError lastError = OTA_END_ERROR;
@@ -27,7 +29,7 @@ private:
   std::function<void(otaError)> errorCallback;
 
   void onStart();
-  void onEnd();
+  static void onEnd();
   void onProgress(unsigned int progress, unsigned int total);
   void onError(otaError);
 };

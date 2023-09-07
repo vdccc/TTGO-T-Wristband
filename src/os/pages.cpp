@@ -13,18 +13,22 @@ Pages::Pages(std::initializer_list<Page *> list) {
   }
 }
 
-void Pages::drawCurrentPage(OSBase &os) { pages[currentPageIDX]->draw(os); }
+void Pages::drawCurrentPage(OSBase &osBase) {
+  pages[currentPageIDX]->draw(osBase);
+}
 
-void Pages::runCurrentAction(OSBase &os) { pages[currentPageIDX]->run(os); }
+void Pages::runCurrentAction(OSBase &osBase) {
+  pages[currentPageIDX]->run(osBase);
+}
 
-int Pages::getCurrentRefreshInterval() {
+auto Pages::getCurrentRefreshInterval() -> int {
   return pages[currentPageIDX]->getRefreshInterval();
 }
 
 void Pages::nextPage() {
-  do {
-    currentPageIDX = (currentPageIDX + 1) % pages.size();
-  } while (!pages[currentPageIDX]->available());
+  for (; !pages[currentPageIDX]->available();) {
+    currentPageIDX = ++currentPageIDX % pages.size();
+  }
 }
 
 void Pages::pushPage(std::unique_ptr<Page> page) {

@@ -3,32 +3,33 @@
 #include <sstream>
 
 OS::OS()
-    : config(), ota([this] { otaStartCallback(); },
+    : config(), ota(
+                    std::bind(&OS::otaStartCallback, this),
                     [this](unsigned int progress, unsigned int total) {
-                      otaProgressCallback(progress, total);
+                      this->otaProgressCallback(progress, total);
                     },
-                    [this](otaError err) { otaErrorCallback(err); }),
+                    [this](otaError err) { this->otaErrorCallback(err); }),
       loopTimer(config.loopDelay), sleepTimer(config.sleepDelay) {}
 
 void OS::otaStartCallback() {
-  gfx.drawMessage(0, 36, "OTA STARTING");
+  getGFX().drawMessage(0, 36, "OTA STARTING");
   delay(200);
 }
 
 void OS::otaProgressCallback(unsigned int progress, unsigned int total) {
   std::stringstream out;
   out << progress << " / " << total;
-  gfx.drawMessage(0, 36, out.str());
+  getGFX().drawMessage(0, 36, out.str());
 }
 
 void OS::otaErrorCallback(otaError err) {
-  gfx.drawMessage(0, 36, "OTA FAILED  ");
+  getGFX().drawMessage(0, 36, "OTA FAILED  ");
   delay(200);
 }
 
 void OS::buttonClickCallback() {
   sleepTimer.reset();
-  gfx.blankScreen();
+  getGFX().blankScreen();
   pages.nextPage();
   loopTimer.set(pages.getCurrentRefreshInterval());
 }
@@ -39,8 +40,10 @@ void OS::buttonHoldCallback() {
 }
 
 void OS::setup() {
+  auto device = getDevice();
+  auto gfx = getGFX();
   device.init();
-  device.wifiOn();
+  Device::wifiOn();
   device.wifiConnect(config.apName, config.apPassword);
   ota.init();
   gfx.init();
@@ -53,16 +56,18 @@ void OS::setup() {
 void OS::loop() {
   if (loopTimer.fired()) {
     loopTimer.reset();
-    ota.run();
+    OTA::run();
+    auto device = getDevice();
     pages.drawCurrentPage(*this);
-    if (device.buttonHeld())
+    if (device.buttonHeld()) {
       buttonHoldCallback();
-    else if (device.buttonClicked())
+    } else if (device.buttonClicked()) {
       buttonClickCallback();
+    }
   }
   if (sleepTimer.fired()) {
     sleepTimer.reset();
-    gfx.sleep();
-    device.sleep();
+    getGFX().sleep();
+    getDevice().sleep();
   }
 }

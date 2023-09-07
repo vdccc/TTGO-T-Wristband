@@ -2,17 +2,21 @@
 
 #include <WiFi.h>
 
+#include "WiFiType.h"
+#include "esp_wifi_types.h"
+
 class wbWifi {
 public:
-  wbWifi() {}
+  wbWifi() : wifi(&WiFi) {}
 
   void init();
-  void enable();
-  void disable();
-  bool is_enabled();
-  bool connect(std::string const &apName, std::string const &apPwd);
-  bool is_connected();
+  static void enable();
+  static void disable();
+  static auto is_enabled() -> bool;
+  auto connect(std::string const &apName, std::string const &apPwd) -> bool;
+  static auto is_connected() -> bool;
   void disconnect();
 
 private:
+  WiFiClass *wifi;
 };

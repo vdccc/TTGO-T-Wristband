@@ -10,24 +10,26 @@ void GFX::init() {
   blankScreen();
   ledcSetup(TFT_LEDC_CHAN, TFT_LEDC_FREQ, TFT_LEDC_RESOLUTION);
   ledcAttachPin(TFT_BL, 0);
-  ledcWrite(TFT_LEDC_CHAN, 185);
+  ledcWrite(TFT_LEDC_CHAN, brightness);
 }
 
 void GFX::sleep() {
   blankScreen();
   tft.writecommand(ST7735_SWRESET);
-  delay(100);
+  delay(TFT_ST7735_SWRESET_DELAY);
   tft.writecommand(ST7735_SLPIN);
-  delay(150);
+  delay(TFT_ST7735_SLPIN_DELAY);
   tft.writecommand(ST7735_DISPOFF);
 }
 
-int GFX::clamp(int a) {
-  if (a > brightness_max)
-    return brightness_max;
-  if (a < brightness_min)
-    return brightness_min;
-  return a;
+auto GFX::clamp(int val) -> int {
+  if (val > TFT_MAX_BRIGHTNESS) {
+    return TFT_MAX_BRIGHTNESS;
+  }
+  if (val < TFT_MIN_BRIGHTNESS) {
+    return TFT_MIN_BRIGHTNESS;
+  }
+  return val;
 }
 
 void GFX::setBrightness(int brightness) {
@@ -36,7 +38,7 @@ void GFX::setBrightness(int brightness) {
 
 void GFX::blankScreen() { tft.fillScreen(TFT_BLACK); }
 
-void GFX::drawMessage(int x, int y, std::string const &msg) {
+void GFX::drawMessage(int posX, int posY, std::string const &msg) {
   tft.setTextColor(TFT_DARKCYAN, TFT_BLACK);
-  tft.drawString(msg.c_str(), x, y, 2);
+  tft.drawString(msg.c_str(), posX, posY, 2);
 }

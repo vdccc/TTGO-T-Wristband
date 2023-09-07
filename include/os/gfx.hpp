@@ -7,22 +7,17 @@
 
 class GFX {
 public:
-  GFX() : tft(TFT_eSPI()) {}
-
-  const int brightness_min = 0;
-  const int brightness_max = 255;
-
   void init();
   void sleep();
 
-  void setBrightness(int brightness);
-  void drawMessage(int x, int y, std::string const &msg);
+  void drawMessage(int posX, int posY, std::string const &msg);
   void blankScreen();
+  static void setBrightness(int brightness);
 
 private:
   TFT_eSPI tft;
 
-  int brightness = 185;
+  int brightness = TFT_DEFAULT_BRIGHTNESS;
 
-  int clamp(int a);
+  static auto clamp(int val) -> int;
 };

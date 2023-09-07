@@ -7,6 +7,6 @@ void wbClock::init() {
 
 void wbClock::sleep() { rtc.disableCLK(); }
 
-rtcDate wbClock::getDateTime() { return rtc.getDateTime(); }
+auto wbClock::getDateTime() -> rtcDate { return rtc.getDateTime(); }
 
 void wbClock::setDateTime(rtcDate datetime) { rtc.setDateTime(datetime); }

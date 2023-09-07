@@ -5,12 +5,12 @@ void Timer::reset() {
   setTime = millis() + duration;
 }
 
-void Timer::set(unsigned long ms) {
-  duration = ms;
+void Timer::set(unsigned long delay) {
+  duration = delay;
   setTime = millis() + duration;
 }
 
-bool Timer::fired() {
+auto Timer::fired() -> bool {
   unsigned long curTime = millis();
   if (curTime > setTime) {
     runTime = curTime - startTime;
@@ -19,4 +19,4 @@ bool Timer::fired() {
   return false;
 }
 
-unsigned long Timer::getRunTime() { return runTime; }
+auto Timer::getRunTime() -> unsigned long { return runTime; }

@@ -3,12 +3,10 @@
 void OTA::init() {
   ArduinoOTA.setHostname(hostname);
   ArduinoOTA.setPassword(password);
-  ArduinoOTA.onStart([this] { this->onStart(); })
-      .onProgress([this](unsigned int progress, unsigned int total) {
-        this->onProgress(progress, total);
-      })
-      .onEnd([this] { this->onEnd(); })
-      .onError([this](otaError err) { this->onError(err); });
+  ArduinoOTA.onStart(std::bind(&OTA::onStart, this))
+      .onProgress(progressCallback)
+      .onEnd(onEnd)
+      .onError(errorCallback);
   ArduinoOTA.begin();
 }
 

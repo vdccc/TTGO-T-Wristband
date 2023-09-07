@@ -4,17 +4,17 @@
 
 class Timer {
 public:
-  Timer(unsigned long ms)
-      : duration(ms), setTime(millis() + ms), startTime(millis()), runTime(0) {}
+  Timer(unsigned long delay)
+      : duration(delay), setTime(millis() + delay), startTime(millis()) {}
 
   void reset();
-  void set(unsigned long ms);
-  bool fired();
-  unsigned long getRunTime();
+  void set(unsigned long delay);
+  auto fired() -> bool;
+  auto getRunTime() -> unsigned long;
 
 private:
   unsigned long duration;
   unsigned long setTime;
   unsigned long startTime;
-  unsigned long runTime;
+  unsigned long runTime{};
 };

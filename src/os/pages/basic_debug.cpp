@@ -4,22 +4,26 @@
 #include <string>
 
 #include "os/base.hpp"
+#include "os/pages/page.hpp"
 
-void BasicDebug::draw(OSBase &os) {
-  auto device = os.getDevice();
-  auto gfx = os.getGFX();
-  if (device.wifiEnabled())
+void BasicDebug::draw(OSBase &osBase) {
+  auto device = osBase.getDevice();
+  auto gfx = osBase.getGFX();
+  if (Device::wifiEnabled()) {
     gfx.drawMessage(0, 0, "WiFi Enabled ");
-  else
+  } else {
     gfx.drawMessage(0, 0, "WiFi Disabled");
-  if (device.wifiConnected())
+  }
+  if (Device::wifiConnected()) {
     gfx.drawMessage(0, 18, "WiFi Connected   ");
-  else
+  } else {
     gfx.drawMessage(0, 18, "WiFi Disconnected");
-  if (device.batteryCharging())
+  }
+  if (Device::batteryCharging()) {
     gfx.drawMessage(0, 54, "Battery charging");
-  else
+  } else {
     gfx.drawMessage(0, 54, "                ");
+  }
   std::stringstream out;
   out << device.batteryPct() << "% ";
   gfx.drawMessage(120, 0, out.str());
@@ -28,10 +32,12 @@ void BasicDebug::draw(OSBase &os) {
   gfx.drawMessage(100, 40, sec.str());
 }
 
-void BasicDebug::run(OSBase &os) {
-  os.getGFX().drawMessage(0, 20, "Long pressed");
+void BasicDebug::run(OSBase &osBase) {
+  osBase.getGFX().drawMessage(0, 20, "Long pressed");
 }
 
-bool BasicDebug::available() { return true; }
+auto BasicDebug::available() -> bool { return true; }
 
-int BasicDebug::getRefreshInterval() { return 1000; }
+auto BasicDebug::getRefreshInterval() -> int {
+  return PAGE_DEFAULT_REFRESH_INTERVAL;
+}

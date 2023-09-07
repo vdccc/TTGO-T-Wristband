@@ -2,16 +2,16 @@
 
 #include <pcf8563.h>
 
-typedef RTC_Date rtcDate;
+using rtcDate = RTC_Date;
 
 class wbClock {
-  public:
-    void init();
-    void sleep();
+public:
+  void init();
+  void sleep();
 
-    rtcDate getDateTime();
-    void setDateTime(rtcDate);
-    
-  private:
-    PCF8563_Class rtc;
+  auto getDateTime() -> rtcDate;
+  void setDateTime(rtcDate);
+
+private:
+  PCF8563_Class rtc;
 };

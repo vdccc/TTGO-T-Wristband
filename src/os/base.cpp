@@ -1,5 +1,5 @@
 #include "os/base.hpp"
 
-Device &OSBase::getDevice() { return device; }
+auto OSBase::getDevice() -> Device & { return device; }
 
-GFX &OSBase::getGFX() { return gfx; }
+auto OSBase::getGFX() -> GFX & { return gfx; }

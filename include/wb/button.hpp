@@ -8,24 +8,23 @@
 
 class wbButton {
 public:
-  wbButton(int delay, int pin, int debounceTime, int pullup, int alow)
+  wbButton(int delay, int pin, int debounceTime, bool pullup, bool alow)
       : holdDelay(delay), button(pin, debounceTime, pullup, alow) {}
 
   void init();
-  bool read();
-
-  bool clicked();
-  bool held();
+  auto read() -> bool;
+  auto clicked() -> bool;
+  auto held() -> bool;
 
 private:
   int holdDelay;
   EasyButton button;
-  bool wasClicked;
-  bool wasHeld;
+  bool wasClicked{};
+  bool wasHeld{};
 
   void buttonISR();
   void holdCallback();
   void clickCallback();
 
-  unsigned long lastPressed;
+  unsigned long lastPressed{};
 };

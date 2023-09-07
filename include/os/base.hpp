@@ -5,10 +5,10 @@
 
 class OSBase {
 public:
-  Device &getDevice();
-  GFX &getGFX();
+  auto getDevice() -> Device &;
+  auto getGFX() -> GFX &;
 
-protected:
+private:
   Device device;
   GFX gfx;
 };

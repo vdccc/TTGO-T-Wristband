@@ -3,19 +3,19 @@
 void wbMPU::init() { mpu.initMPU9250(); }
 
 void wbMPU::sleep() {
-  mpu.writeBit(MPU9250_ADDRESS, PWR_MGMT_1, 5, false);
-  mpu.writeBit(MPU9250_ADDRESS, PWR_MGMT_1, 6, false);
-  mpu.writeBit(MPU9250_ADDRESS, PWR_MGMT_1, 4, false);
+  mpu.writeBit(MPU9250_ADDRESS, PWR_MGMT_1, 5, 0x1);
+  mpu.writeBit(MPU9250_ADDRESS, PWR_MGMT_1, 6, 0x1);
+  mpu.writeBit(MPU9250_ADDRESS, PWR_MGMT_1, 4, 0x1);
   mpu.writeByte(MPU9250_ADDRESS, PWR_MGMT_2, 0x07);
   mpu.writeByte(MPU9250_ADDRESS, ACCEL_CONFIG2, 0x09);
   mpu.writeByte(MPU9250_ADDRESS, INT_ENABLE, 0x40);
-  mpu.writeBit(MPU9250_ADDRESS, MOT_DETECT_CTRL, 7, true);
-  mpu.writeBit(MPU9250_ADDRESS, MOT_DETECT_CTRL, 6, true);
+  mpu.writeBit(MPU9250_ADDRESS, MOT_DETECT_CTRL, 7, 0x1);
+  mpu.writeBit(MPU9250_ADDRESS, MOT_DETECT_CTRL, 6, 0x1);
   mpu.writeByte(MPU9250_ADDRESS, WOM_THR, 220);
   mpu.writeBit(MPU9250_ADDRESS, INT_PIN_CFG, 5, 0);
   mpu.writeByte(MPU9250_ADDRESS, INT_STATUS, 0);
   mpu.writeByte(MPU9250_ADDRESS, LP_ACCEL_ODR, 0x01);
-  mpu.writeBit(MPU9250_ADDRESS, PWR_MGMT_1, 5, true);
+  mpu.writeBit(MPU9250_ADDRESS, PWR_MGMT_1, 5, 0x1);
 }
 
 void wbMPU::deepSleep() {

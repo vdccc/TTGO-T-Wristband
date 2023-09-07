@@ -1,15 +1,18 @@
 #include "device.hpp"
+#include "wb/definitions.hpp"
 
 Device::Device()
     : config(),
       button(config.buttonHoldTime, config.buttonPin, config.buttonDebounceTime,
-             config.buttonPullup, config.buttonALow) {}
+             config.buttonPullup, config.buttonALow),
+      battery() {}
 
 void Device::init() {
-  if (config.serialEnabled)
-    Serial.begin(115200);
+  if (config.serialEnabled) {
+    Serial.begin(SERIAL_BIT_RATE_DEFAULT);
+  }
   Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
-  Wire.setClock(400000);
+  Wire.setClock(I2C_DEFAULT_CLOCK);
   wifi.init();
   clock.init();
   mpu.init();
@@ -21,7 +24,7 @@ void Device::init() {
 
 void Device::sleep() {
   wifi.disconnect();
-  wifi.disable();
+  wbWifi::disable();
   clock.sleep();
   mpu.deepSleep();
   esp_sleep_enable_ext1_wakeup(GPIO_SEL_33, ESP_EXT1_WAKEUP_ANY_HIGH);
@@ -29,23 +32,23 @@ void Device::sleep() {
   esp_deep_sleep_start();
 }
 
-void Device::wifiOn() { wifi.enable(); }
+void Device::wifiOn() { wbWifi::enable(); }
 
-void Device::wifiOff() { wifi.disable(); }
+void Device::wifiOff() { wbWifi::disable(); }
 
 void Device::wifiConnect(std::string const &apName,
                          std::string const &apPassword) {
   wifi.connect(apName, apPassword);
 }
 
-bool Device::wifiConnected() { return wifi.is_connected(); }
+auto Device::wifiConnected() -> bool { return wbWifi::is_connected(); }
 
-bool Device::wifiEnabled() { return wifi.is_enabled(); }
+auto Device::wifiEnabled() -> bool { return wbWifi::is_enabled(); }
 
-bool Device::batteryCharging() { return battery.isCharging(); }
+auto Device::batteryCharging() -> bool { return wbBattery::isCharging(); }
 
-int Device::batteryPct() { return battery.getPercent(); }
+auto Device::batteryPct() -> int { return battery.getPercent(); }
 
-bool Device::buttonHeld() { return button.held(); }
+auto Device::buttonHeld() -> bool { return button.held(); }
 
-bool Device::buttonClicked() { return button.clicked(); }
+auto Device::buttonClicked() -> bool { return button.clicked(); }

@@ -22,19 +22,19 @@ public:
   void sleep();
 
   // wifi
-  void wifiOn();
-  void wifiOff();
+  static void wifiOn();
+  static void wifiOff();
   void wifiConnect(std::string const &apName, std::string const &apPassword);
-  bool wifiEnabled();
-  bool wifiConnected();
+  static auto wifiEnabled() -> bool;
+  static auto wifiConnected() -> bool;
 
   // battery
-  bool batteryCharging();
-  int batteryPct();
+  static auto batteryCharging() -> bool;
+  auto batteryPct() -> int;
 
   // button
-  bool buttonHeld();
-  bool buttonClicked();
+  auto buttonHeld() -> bool;
+  auto buttonClicked() -> bool;
 
 private:
   DeviceConfig config;
