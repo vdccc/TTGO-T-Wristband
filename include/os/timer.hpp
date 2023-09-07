@@ -11,6 +11,7 @@ public:
   void set(unsigned long delay);
   auto fired() -> bool;
   auto getRunTime() const -> unsigned long;
+  auto getRemainingTime() const -> unsigned long;
 
 private:
   unsigned long duration;

@@ -27,7 +27,7 @@ auto wbBattery::clamp(const int &&val, const int &&low, const int &&high)
   return val;
 }
 
-auto wbBattery::getPercent() -> int {
+auto wbBattery::getPercent() const -> int {
   const float volts = getVoltage();
   float const percentage =
       ((volts - BATTERY_MIN_V) * BATTERY_MAX_PERCENT) / BATTERY_RANGE;

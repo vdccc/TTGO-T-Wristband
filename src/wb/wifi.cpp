@@ -1,5 +1,5 @@
 #include "wb/wifi.hpp"
-#include "WiFiType.h"
+#include <stdint.h>
 
 void wbWifi::init() {
   wifi->setSleep(WIFI_PS_MAX_MODEM);
@@ -23,3 +23,7 @@ auto wbWifi::connect(std::string const &apName, std::string const &apPwd)
 }
 
 void wbWifi::disconnect() { wifi->disconnect(); }
+
+auto wbWifi::getRSSI() -> int8_t { return wifi->RSSI(); }
+
+auto wbWifi::getSSID() -> string { return wifi->SSID().c_str(); }

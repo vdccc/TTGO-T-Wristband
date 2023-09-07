@@ -8,15 +8,13 @@
 
 class wbBattery {
 public:
-  wbBattery() : vref(BATTERY_DEFAULT_VREF) {}
-
   void init();
   auto getVoltage() const -> float;
-  auto getPercent() -> int;
+  auto getPercent() const -> int;
   static auto isCharging() -> bool;
 
 private:
-  unsigned int vref;
+  unsigned int vref{BATTERY_DEFAULT_VREF};
 
   static auto clamp(const int &&, const int &&, const int &&) -> int;
 };

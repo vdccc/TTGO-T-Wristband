@@ -12,7 +12,8 @@ void GFX::init() {
 
 void GFX::sleep() {
   blankScreen();
-  drawMessage(tft.width() / 2, tft.height() / 2, "going to sleep");
+  tft.setTextDatum(MC_DATUM);
+  drawCenterMessage("going to sleep");
   delay(1000);
   tft.writecommand(TFT_SWRST);
   delay(TFT_ST7735_SWRESET_DELAY);
@@ -37,7 +38,20 @@ void GFX::setBrightness(int brightness) {
 
 void GFX::blankScreen() { tft.fillScreen(TFT_BLACK); }
 
-void GFX::drawMessage(int posX, int posY, std::string const &msg) {
+void GFX::drawBigCenterMessage(std::string const &&msg) {
+  tft.setTextColor(TFT_BLUE, TFT_BLACK);
+  tft.setTextDatum(MC_DATUM);
+  tft.drawString(msg.c_str(), tft.width() / 2, tft.height() / 2, 6);
+}
+
+void GFX::drawCenterMessage(std::string const &&msg) {
   tft.setTextColor(TFT_CYAN, TFT_BLACK);
+  tft.setTextDatum(MC_DATUM);
+  tft.drawString(msg.c_str(), tft.width() / 2, tft.height() / 2, 2);
+}
+
+void GFX::drawMessage(int posX, int posY, std::string const &&msg) {
+  tft.setTextColor(TFT_CYAN, TFT_BLACK);
+  tft.setTextDatum(TL_DATUM);
   tft.drawString(msg.c_str(), posX, posY, 2);
 }

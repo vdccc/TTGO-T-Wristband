@@ -1,5 +1,7 @@
 #include "device.hpp"
 #include "esp_sleep.h"
+#include "wb/clock.hpp"
+#include <sys/_stdint.h>
 
 Device::Device()
     : config(),
@@ -45,10 +47,20 @@ auto Device::wifiConnected() -> bool { return wbWifi::is_connected(); }
 
 auto Device::wifiEnabled() -> bool { return wbWifi::is_enabled(); }
 
+auto Device::wifiGetRSSI() -> int8_t { return wifi.getRSSI(); }
+
+auto Device::wifiGetSSID() -> std::string { return wifi.getSSID(); }
+
 auto Device::batteryCharging() -> bool { return wbBattery::isCharging(); }
 
 auto Device::batteryPct() -> int { return battery.getPercent(); }
 
+auto Device::batteryVoltage() -> float { return battery.getVoltage(); }
+
 auto Device::buttonHeld() -> bool { return button.held(); }
 
 auto Device::buttonClicked() -> bool { return button.clicked(); }
+
+auto Device::getDate() -> rtcDate { return clock.getDateTime(); }
+
+void Device::setDate(rtcDate date) { clock.setDateTime(date); }

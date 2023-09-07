@@ -9,7 +9,9 @@ public:
   void init();
   void sleep();
 
-  void drawMessage(int posX, int posY, std::string const &msg);
+  void drawMessage(int posX, int posY, std::string const &&msg);
+  void drawCenterMessage(std::string const &&msg);
+  void drawBigCenterMessage(std::string const &&msg);
   void blankScreen();
   static void setBrightness(int brightness);
 

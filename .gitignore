@@ -2,3 +2,4 @@
 .vscode/**
 .cache/**
 platformio.ini
+compile_commands.json

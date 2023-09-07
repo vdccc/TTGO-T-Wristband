@@ -1,5 +1,7 @@
 #include "os.hpp"
+#include "esp32-hal.h"
 
+#include <iomanip>
 #include <sstream>
 
 OS::OS()
@@ -12,25 +14,30 @@ OS::OS()
       loopTimer(config.loopDelay), sleepTimer(config.sleepDelay) {}
 
 void OS::otaStartCallback() {
-  getGFX().drawMessage(0, 36, "OTA STARTING");
-  delay(200);
+  getGFX().drawCenterMessage("OTA STRT");
+  delay(500);
 }
 
 void OS::otaProgressCallback(unsigned int progress, unsigned int total) {
+  float pct = ((float)progress / (float)total) * 100.0F;
   std::stringstream out;
-  out << progress << " / " << total;
-  getGFX().drawMessage(0, 36, out.str());
+  out << "OTA: " << std::fixed << std::setprecision(2) << std::setfill(' ')
+      << std::setw(6) << pct << "%";
+  getGFX().drawCenterMessage(out.str());
 }
 
 void OS::otaErrorCallback(otaError err) {
-  getGFX().drawMessage(0, 36, "OTA FAILED  ");
-  delay(200);
+  getGFX().drawCenterMessage("OTA FAIL");
+  delay(500);
 }
 
 void OS::buttonClickCallback() {
   sleepTimer.reset();
+  pages.teardownCurrentPage(*this);
   getGFX().blankScreen();
   pages.nextPage();
+  pages.setupCurrentPage(*this);
+  pages.drawCurrentPage(*this);
   loopTimer.set(pages.getCurrentRefreshInterval());
 }
 
@@ -54,6 +61,10 @@ void OS::setup() {
 }
 
 void OS::loop() {
+  auto remainingTime = loopTimer.getRemainingTime();
+  if (remainingTime > 0) {
+    delay(remainingTime);
+  }
   if (loopTimer.fired()) {
     loopTimer.reset();
     OTA::run();

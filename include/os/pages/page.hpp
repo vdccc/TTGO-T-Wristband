@@ -7,6 +7,8 @@
 class Page {
 public:
   virtual ~Page() = default;
+  virtual void setup(OSBase &osBase) = 0;
+  virtual void teardown(OSBase &osBase) = 0;
   virtual void draw(OSBase &osBase) = 0;
   virtual void run(OSBase &osBase) = 0;
   virtual auto available() -> bool = 0;

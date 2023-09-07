@@ -6,6 +6,7 @@
 #include <functional>
 
 #include "device/config.hpp"
+#include "esp_sleep.h"
 #include "wb/battery.hpp"
 #include "wb/button.hpp"
 #include "wb/clock.hpp"
@@ -28,14 +29,21 @@ public:
   void wifiConnect(std::string const &apName, std::string const &apPassword);
   static auto wifiEnabled() -> bool;
   static auto wifiConnected() -> bool;
+  auto wifiGetRSSI() -> int8_t;
+  auto wifiGetSSID() -> std::string;
 
   // battery
   static auto batteryCharging() -> bool;
   auto batteryPct() -> int;
+  auto batteryVoltage() -> float;
 
   // button
   auto buttonHeld() -> bool;
   auto buttonClicked() -> bool;
+
+  // clock
+  auto getDate() -> rtcDate;
+  void setDate(rtcDate);
 
 private:
   DeviceConfig config;

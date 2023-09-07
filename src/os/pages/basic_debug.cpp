@@ -1,10 +1,12 @@
 #include "os/pages/basic_debug.hpp"
 
+#include <iomanip>
 #include <sstream>
 #include <string>
 
-#include "os/base.hpp"
-#include "os/pages/page.hpp"
+void BasicDebug::setup(OSBase &osBase) {}
+
+void BasicDebug::teardown(OSBase &osBase) {}
 
 void BasicDebug::draw(OSBase &osBase) {
   auto &device = osBase.getDevice();
@@ -24,19 +26,15 @@ void BasicDebug::draw(OSBase &osBase) {
   } else {
     gfx.drawMessage(0, 64, "                ");
   }
-  std::stringstream out{};
-  out << device.batteryPct() << "% ";
-  gfx.drawMessage(120, 0, out.str());
+  std::stringstream batP{};
+  batP << device.batteryPct() << "%";
+  gfx.drawMessage(120, 0, batP.str());
+  std::stringstream batV{};
+  batV << std::fixed << std::setprecision(2) << device.batteryVoltage() << "V";
+  gfx.drawMessage(120, 16, batV.str());
   std::stringstream sec{};
   sec << millis() / 1000 << "s";
-  gfx.drawMessage(120, 20, sec.str());
-  if (device.buttonClicked()) {
-    gfx.drawMessage(0, 32, "button clicked");
-  } else if (device.buttonHeld()) {
-    gfx.drawMessage(0, 32, "button held   ");
-  } else {
-    gfx.drawMessage(0, 32, "button depresd");
-  }
+  gfx.drawMessage(120, 32, sec.str());
 }
 
 void BasicDebug::run(OSBase &osBase) {

@@ -20,3 +20,11 @@ auto Timer::fired() -> bool {
 }
 
 auto Timer::getRunTime() const -> unsigned long { return runTime; }
+
+auto Timer::getRemainingTime() const -> unsigned long {
+  auto curTime = millis();
+  if (curTime > setTime) {
+    return 0;
+  }
+  return setTime - curTime;
+};

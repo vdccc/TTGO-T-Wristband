@@ -5,7 +5,7 @@
 
 #include "os/pages/page.hpp"
 
-class WiFiControl final : public Page {
+class Clock final : public Page {
 public:
   void setup(OSBase &osBase) final;
   void teardown(OSBase &osBase) final;

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "os/pages/basic_debug.hpp"
+#include "os/pages/clock.hpp"
 #include "os/pages/wifi_control.hpp"
 
 // better name would be actions or apps :^)
@@ -14,6 +15,8 @@ public:
   Pages();
   Pages(std::initializer_list<Page *>);
 
+  void setupCurrentPage(OSBase &osBase);
+  void teardownCurrentPage(OSBase &osBase);
   void drawCurrentPage(OSBase &osBase);
   void runCurrentAction(OSBase &osBase);
   auto getCurrentRefreshInterval() -> int;
