@@ -1,9 +1,8 @@
 #pragma once
 
-#include <TFT_eSPI.h>
-#include <esp32-hal-ledc.h>
-
 #include "wb/definitions.hpp"
+
+#include <TFT_eSPI.h>
 
 class GFX {
 public:
@@ -15,7 +14,7 @@ public:
   static void setBrightness(int brightness);
 
 private:
-  TFT_eSPI tft;
+  TFT_eSPI tft{};
 
   int brightness = TFT_DEFAULT_BRIGHTNESS;
 

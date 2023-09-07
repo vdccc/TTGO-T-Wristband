@@ -1,8 +1,8 @@
 #include "os/timer.hpp"
 
 void Timer::reset() {
-  startTime = 0;
-  setTime = millis() + duration;
+  startTime = millis();
+  setTime = startTime + duration;
 }
 
 void Timer::set(unsigned long delay) {

@@ -7,29 +7,36 @@
 #include "os/pages/page.hpp"
 
 void BasicDebug::draw(OSBase &osBase) {
-  auto device = osBase.getDevice();
-  auto gfx = osBase.getGFX();
+  auto &device = osBase.getDevice();
+  auto &gfx = osBase.getGFX();
   if (Device::wifiEnabled()) {
     gfx.drawMessage(0, 0, "WiFi Enabled ");
   } else {
     gfx.drawMessage(0, 0, "WiFi Disabled");
   }
   if (Device::wifiConnected()) {
-    gfx.drawMessage(0, 18, "WiFi Connected   ");
+    gfx.drawMessage(0, 16, "WiFi Connected   ");
   } else {
-    gfx.drawMessage(0, 18, "WiFi Disconnected");
+    gfx.drawMessage(0, 16, "WiFi Disconnected");
   }
   if (Device::batteryCharging()) {
-    gfx.drawMessage(0, 54, "Battery charging");
+    gfx.drawMessage(0, 64, "Battery charging");
   } else {
-    gfx.drawMessage(0, 54, "                ");
+    gfx.drawMessage(0, 64, "                ");
   }
   std::stringstream out{};
   out << device.batteryPct() << "% ";
   gfx.drawMessage(120, 0, out.str());
   std::stringstream sec{};
   sec << millis() / 1000 << "s";
-  gfx.drawMessage(100, 40, sec.str());
+  gfx.drawMessage(120, 20, sec.str());
+  if (device.buttonClicked()) {
+    gfx.drawMessage(0, 32, "button clicked");
+  } else if (device.buttonHeld()) {
+    gfx.drawMessage(0, 32, "button held   ");
+  } else {
+    gfx.drawMessage(0, 32, "button depresd");
+  }
 }
 
 void BasicDebug::run(OSBase &osBase) {

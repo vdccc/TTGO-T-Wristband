@@ -40,16 +40,16 @@ void OS::buttonHoldCallback() {
 }
 
 void OS::setup() {
-  auto device = getDevice();
-  auto gfx = getGFX();
+  auto &device = getDevice();
+  auto &gfx = getGFX();
   device.init();
+  gfx.init();
   Device::wifiOn();
   device.wifiConnect(config.apName, config.apPassword);
   ota.init();
-  gfx.init();
   loopTimer.set(pages.getCurrentRefreshInterval());
-  loopTimer.reset();
   sleepTimer.set(config.sleepDelay);
+  loopTimer.reset();
   sleepTimer.reset();
 }
 
@@ -57,8 +57,8 @@ void OS::loop() {
   if (loopTimer.fired()) {
     loopTimer.reset();
     OTA::run();
-    auto device = getDevice();
     pages.drawCurrentPage(*this);
+    auto &device = getDevice();
     if (device.buttonHeld()) {
       buttonHoldCallback();
     } else if (device.buttonClicked()) {

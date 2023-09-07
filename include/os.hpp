@@ -11,6 +11,7 @@
 class OS : OSBase {
 public:
   OS();
+  OS(OS &) = delete;
 
   void setup();
   void loop();

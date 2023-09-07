@@ -18,6 +18,6 @@ void OTA::onProgress(unsigned int progress, unsigned int total) {
   progressCallback(progress, total);
 }
 
-void OTA::onEnd() { esp_restart(); }
+void OTA::onEnd() {}
 
 void OTA::onError(otaError err) { errorCallback(err); }

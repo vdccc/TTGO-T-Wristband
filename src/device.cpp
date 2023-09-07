@@ -1,11 +1,10 @@
 #include "device.hpp"
-#include "wb/definitions.hpp"
+#include "esp_sleep.h"
 
 Device::Device()
     : config(),
       button(config.buttonHoldTime, config.buttonPin, config.buttonDebounceTime,
-             config.buttonPullup, config.buttonALow)
-      {}
+             config.buttonPullup, config.buttonALow) {}
 
 void Device::init() {
   if (config.serialEnabled) {
@@ -13,13 +12,13 @@ void Device::init() {
   }
   Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
   Wire.setClock(I2C_DEFAULT_CLOCK);
-  wifi.init();
   clock.init();
   mpu.init();
   mpu.sleep();
   eeprom.init();
   battery.init();
   button.init();
+  wifi.init();
 }
 
 void Device::sleep() {
@@ -27,7 +26,8 @@ void Device::sleep() {
   wbWifi::disable();
   clock.sleep();
   mpu.deepSleep();
-  esp_sleep_enable_ext1_wakeup(GPIO_SEL_33, ESP_EXT1_WAKEUP_ANY_HIGH);
+  esp_sleep_disable_wakeup_source(ESP_SLEEP_WAKEUP_ALL);
+  esp_sleep_enable_ext0_wakeup(GPIO_NUM_33, HIGH);
   esp_deep_sleep_disable_rom_logging();
   esp_deep_sleep_start();
 }

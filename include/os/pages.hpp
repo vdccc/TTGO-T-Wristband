@@ -22,5 +22,5 @@ public:
 
 private:
   std::vector<std::unique_ptr<Page>> pages{};
-  size_t currentPageIDX;
+  size_t curPageIDX;
 };

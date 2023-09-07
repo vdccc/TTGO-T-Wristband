@@ -2,33 +2,30 @@
 
 #include <memory>
 
-Pages::Pages() : currentPageIDX(0) {
+Pages::Pages() : curPageIDX(0) {
   pushPage(std::unique_ptr<Page>(new BasicDebug()));
   pushPage(std::unique_ptr<Page>(new WiFiControl()));
 }
 
-Pages::Pages(std::initializer_list<Page *> list) : currentPageIDX(0) {
+Pages::Pages(std::initializer_list<Page *> list) : curPageIDX(0) {
   for (Page *page : list) {
     pushPage(std::unique_ptr<Page>(page));
   }
 }
 
-void Pages::drawCurrentPage(OSBase &osBase) {
-  pages[currentPageIDX]->draw(osBase);
-}
+void Pages::drawCurrentPage(OSBase &osBase) { pages[curPageIDX]->draw(osBase); }
 
-void Pages::runCurrentAction(OSBase &osBase) {
-  pages[currentPageIDX]->run(osBase);
-}
+void Pages::runCurrentAction(OSBase &osBase) { pages[curPageIDX]->run(osBase); }
 
 auto Pages::getCurrentRefreshInterval() -> int {
-  return pages[currentPageIDX]->getRefreshInterval();
+  return pages[curPageIDX]->getRefreshInterval();
 }
 
 void Pages::nextPage() {
-  for (; !pages[currentPageIDX]->available();) {
-    currentPageIDX = (currentPageIDX + 1) % pages.size();
-  }
+  curPageIDX = (curPageIDX + 1) % pages.size();
+  // for (; !pages[curPageIDX]->available();) {
+  //   curPageIDX = (curPageIDX + 1) % pages.size();
+  // }
 }
 
 void Pages::pushPage(std::unique_ptr<Page> page) {

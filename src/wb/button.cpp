@@ -1,5 +1,13 @@
 #include "wb/button.hpp"
 
+wbButton::wbButton(int delay, int pin, int debounceTime, bool pullup, bool alow)
+    : holdDelay(delay), button(pin, debounceTime, pullup, alow),
+      wasClicked(false), wasHeld(false) {
+  if (button.isPressed()) {
+    lastPressed = millis();
+  }
+}
+
 void wbButton::init() {
   pinMode(TP_PWR_PIN, PULLUP);
   digitalWrite(TP_PWR_PIN, HIGH);
@@ -10,10 +18,10 @@ void wbButton::init() {
 void IRAM_ATTR ARDUINO_ISR_ATTR wbButton::buttonISR() {
   const unsigned int cur = millis();
   button.read();
-  wasClicked = button.isReleased();
-  wasHeld = button.isReleased() && ((cur - lastPressed) > holdDelay);
+  wasClicked = button.wasReleased();
+  wasHeld = button.wasReleased() && ((cur - lastPressed) > holdDelay);
   wasClicked = wasHeld ? false : wasClicked;
-  if (button.isPressed()) {
+  if (button.wasPressed()) {
     lastPressed = cur;
   }
 }

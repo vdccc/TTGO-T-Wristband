@@ -1,6 +1,6 @@
 #include "os.hpp"
 
-OS os = OS();
+OS os{};
 
 void setup() { os.setup(); }
 

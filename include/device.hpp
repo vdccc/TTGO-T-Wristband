@@ -2,6 +2,7 @@
 
 #include <EEPROM.h>
 #include <Wire.h>
+#include <esp32-hal-gpio.h>
 #include <functional>
 
 #include "device/config.hpp"
