@@ -4,6 +4,7 @@
 
 void osNTP::start() {
   ntp.begin();
+  ntp.timeZone(NTP_TZ_HOURS);
   ntp.update();
 }
 
