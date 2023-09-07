@@ -24,10 +24,10 @@ void BasicDebug::draw(OSBase &osBase) {
   } else {
     gfx.drawMessage(0, 54, "                ");
   }
-  std::stringstream out;
+  std::stringstream out{};
   out << device.batteryPct() << "% ";
   gfx.drawMessage(120, 0, out.str());
-  std::stringstream sec;
+  std::stringstream sec{};
   sec << millis() / 1000 << "s";
   gfx.drawMessage(100, 40, sec.str());
 }

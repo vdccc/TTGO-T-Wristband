@@ -10,7 +10,7 @@ public:
   void reset();
   void set(unsigned long delay);
   auto fired() -> bool;
-  auto getRunTime() -> unsigned long;
+  auto getRunTime() const -> unsigned long;
 
 private:
   unsigned long duration;

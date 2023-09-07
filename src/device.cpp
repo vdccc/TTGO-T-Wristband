@@ -4,8 +4,8 @@
 Device::Device()
     : config(),
       button(config.buttonHoldTime, config.buttonPin, config.buttonDebounceTime,
-             config.buttonPullup, config.buttonALow),
-      battery() {}
+             config.buttonPullup, config.buttonALow)
+      {}
 
 void Device::init() {
   if (config.serialEnabled) {

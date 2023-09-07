@@ -11,7 +11,7 @@ public:
   wbBattery() : vref(BATTERY_DEFAULT_VREF) {}
 
   void init();
-  auto getVoltage() -> float;
+  auto getVoltage() const -> float;
   auto getPercent() -> int;
   static auto isCharging() -> bool;
 

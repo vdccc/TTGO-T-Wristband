@@ -11,7 +11,7 @@ void wbBattery::init() {
   pinMode(CHARGE_PIN, INPUT_PULLUP);
 }
 
-auto wbBattery::getVoltage() -> float {
+auto wbBattery::getVoltage() const -> float {
   const uint16_t val = analogRead(BATT_ADC_PIN);
   return ((float)val / 4095.0) * 2.0 * 3.3 * (vref / 1000.0);
 }
@@ -29,7 +29,7 @@ auto wbBattery::clamp(const int &&val, const int &&low, const int &&high)
 
 auto wbBattery::getPercent() -> int {
   const float volts = getVoltage();
-  float percentage =
+  float const percentage =
       ((volts - BATTERY_MIN_V) * BATTERY_MAX_PERCENT) / BATTERY_RANGE;
   return clamp((int)percentage, BATTERY_MIN_PERCENT, BATTERY_MAX_PERCENT);
 }

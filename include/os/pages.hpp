@@ -20,6 +20,6 @@ public:
   void pushPage(std::unique_ptr<Page> page);
 
 private:
-  std::vector<std::unique_ptr<Page>> pages;
+  std::vector<std::unique_ptr<Page>> pages{};
   size_t currentPageIDX = 0;
 };
