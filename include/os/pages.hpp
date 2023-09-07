@@ -13,6 +13,7 @@ class Pages {
 public:
   Pages();
   Pages(std::initializer_list<Page *>);
+
   void drawCurrentPage(OSBase &osBase);
   void runCurrentAction(OSBase &osBase);
   auto getCurrentRefreshInterval() -> int;
@@ -21,5 +22,5 @@ public:
 
 private:
   std::vector<std::unique_ptr<Page>> pages{};
-  size_t currentPageIDX = 0;
+  size_t currentPageIDX;
 };

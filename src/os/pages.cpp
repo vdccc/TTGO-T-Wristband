@@ -2,12 +2,12 @@
 
 #include <memory>
 
-Pages::Pages() {
+Pages::Pages() : currentPageIDX(0) {
   pushPage(std::unique_ptr<Page>(new BasicDebug()));
   pushPage(std::unique_ptr<Page>(new WiFiControl()));
 }
 
-Pages::Pages(std::initializer_list<Page *> list) {
+Pages::Pages(std::initializer_list<Page *> list) : currentPageIDX(0) {
   for (Page *page : list) {
     pushPage(std::unique_ptr<Page>(page));
   }
@@ -27,7 +27,7 @@ auto Pages::getCurrentRefreshInterval() -> int {
 
 void Pages::nextPage() {
   for (; !pages[currentPageIDX]->available();) {
-    currentPageIDX = ++currentPageIDX % pages.size();
+    currentPageIDX = (currentPageIDX + 1) % pages.size();
   }
 }
 
