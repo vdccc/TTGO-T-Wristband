@@ -1,4 +1,5 @@
 #include "os.hpp"
+
 #include <sstream>
 
 OS::OS()

@@ -1,6 +1,7 @@
+#include <os/gfx.hpp>
+
 #include "TFT_eSPI.h"
 #include "wb/definitions.hpp"
-#include <os/gfx.hpp>
 
 void GFX::init() {
   tft.init();

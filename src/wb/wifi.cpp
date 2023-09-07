@@ -1,4 +1,5 @@
 #include "wb/wifi.hpp"
+
 #include "WiFiType.h"
 #include "esp_wifi_types.h"
 

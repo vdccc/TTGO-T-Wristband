@@ -1,4 +1,5 @@
 #include "os/pages/wifi_control.hpp"
+
 #include "os/base.hpp"
 
 void WiFiControl::draw(OSBase &os) {

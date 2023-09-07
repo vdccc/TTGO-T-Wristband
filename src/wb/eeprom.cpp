@@ -1,4 +1,5 @@
 #include "wb/eeprom.hpp"
+
 #include "EEPROM.h"
 
 void wbEEPROM::init() {}

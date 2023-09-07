@@ -1,9 +1,9 @@
 #include "os/pages/basic_debug.hpp"
-#include "os/base.hpp"
 
 #include <sstream>
 #include <string>
-#include <system_error>
+
+#include "os/base.hpp"
 
 void BasicDebug::draw(OSBase &os) {
   auto device = os.getDevice();
@@ -29,7 +29,7 @@ void BasicDebug::draw(OSBase &os) {
 }
 
 void BasicDebug::run(OSBase &os) {
-   os.getGFX().drawMessage(0, 20, "Long pressed");
+  os.getGFX().drawMessage(0, 20, "Long pressed");
 }
 
 bool BasicDebug::available() { return true; }

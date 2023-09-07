@@ -1,4 +1,5 @@
 #include "os/pages.hpp"
+
 #include <memory>
 
 Pages::Pages() {
