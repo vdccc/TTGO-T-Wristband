@@ -40,13 +40,13 @@ void GFX::blankScreen() { tft.fillScreen(TFT_BLACK); }
 
 void GFX::drawBigCenterMessage(std::string const &&msg) {
   tft.setTextColor(TFT_BLUE, TFT_BLACK);
-  tft.setTextDatum(MC_DATUM);
+  tft.setTextDatum(CC_DATUM);
   tft.drawString(msg.c_str(), tft.width() / 2, tft.height() / 2, 6);
 }
 
 void GFX::drawCenterMessage(std::string const &&msg) {
   tft.setTextColor(TFT_CYAN, TFT_BLACK);
-  tft.setTextDatum(MC_DATUM);
+  tft.setTextDatum(CC_DATUM);
   tft.drawString(msg.c_str(), tft.width() / 2, tft.height() / 2, 2);
 }
 
