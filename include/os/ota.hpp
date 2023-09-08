@@ -21,8 +21,8 @@ public:
 
 private:
   otaError lastError = OTA_END_ERROR;
-  const char *hostname = "t-wrist";
-  const char *password = "wristbandpass";
+  const char *hostname = OTA_HOSTNAME;
+  const char *password = OTA_PASS;
 
   std::function<void()> startCallback;
   std::function<void(unsigned int, unsigned int)> progressCallback;
