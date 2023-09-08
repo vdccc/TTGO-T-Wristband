@@ -20,11 +20,9 @@ void Clock::draw(OSBase &osBase) {
   stringstream clockString{};
   stringstream hourString{};
   stringstream minuteString{};
-  hourString << std::setfill('0') << std::setw(2)
-             << (int)date.hour; // TODO: figure it why it must be 3
+  hourString << std::setfill('0') << std::setw(2) << (int)date.hour;
   minuteString << std::setfill('0') << std::setw(2) << (int)date.minute;
-  clockString << std::setw(5) << std::setfill(' ') << hourString.str() << ":"
-              << minuteString.str();
+  clockString << hourString.str() << ":" << minuteString.str();
   gfx.drawBigCenterMessage(clockString.str());
 }
 
