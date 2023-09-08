@@ -39,6 +39,8 @@ public:
 
   // button
   auto buttonHeld() -> bool;
+  auto buttonDoubleClicked() -> bool;
+  auto buttonTripleClicked() -> bool;
   auto buttonClicked() -> bool;
 
   // clock

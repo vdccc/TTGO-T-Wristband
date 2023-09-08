@@ -1,12 +1,12 @@
 #include "device.hpp"
 #include "esp_sleep.h"
 #include "wb/clock.hpp"
+#include "wb/definitions.hpp"
 #include <sys/_stdint.h>
 
 Device::Device()
     : config(),
-      button(config.buttonHoldTime, config.buttonPin, config.buttonDebounceTime,
-             config.buttonPullup, config.buttonALow) {}
+      button(TP_PIN_PIN, TP_HELD_DELAY, TP_CLICK_DELAY, TP_DEBOUNCE_INTERVAL) {}
 
 void Device::init() {
   if (config.serialEnabled) {
@@ -60,6 +60,10 @@ auto Device::batteryVoltage() -> float { return battery.getVoltage(); }
 auto Device::buttonHeld() -> bool { return button.held(); }
 
 auto Device::buttonClicked() -> bool { return button.clicked(); }
+
+auto Device::buttonDoubleClicked() -> bool { return button.doubleClicked(); }
+
+auto Device::buttonTripleClicked() -> bool { return button.tripleClicked(); }
 
 auto Device::getDate() -> rtcDate { return clock.getDateTime(); }
 

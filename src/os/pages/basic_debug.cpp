@@ -37,8 +37,16 @@ void BasicDebug::draw(OSBase &osBase) {
   gfx.drawMessage(120, 32, sec.str());
 }
 
-void BasicDebug::run(OSBase &osBase) {
-  osBase.getGFX().drawMessage(0, 20, "Long pressed");
+void BasicDebug::actionHeld(OSBase &osBase) {
+  osBase.getGFX().drawMessage(0, 48, "Long pressed");
+}
+
+void BasicDebug::actionDoubleClick(OSBase &osBase) {
+  osBase.getGFX().drawMessage(0, 48, "Double clicked");
+}
+
+void BasicDebug::actionTripleClick(OSBase &osBase) {
+  osBase.getGFX().drawMessage(0, 48, "Triple clicked");
 }
 
 auto BasicDebug::available() -> bool { return true; }

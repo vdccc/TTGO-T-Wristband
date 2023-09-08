@@ -22,7 +22,15 @@ void Pages::teardownCurrentPage(OSBase &osBase) {
 
 void Pages::drawCurrentPage(OSBase &osBase) { pages[curPageIDX]->draw(osBase); }
 
-void Pages::runCurrentAction(OSBase &osBase) { pages[curPageIDX]->run(osBase); }
+void Pages::runCurrentActionHeld(OSBase &osBase) {
+  pages[curPageIDX]->actionHeld(osBase);
+}
+void Pages::runCurrentActionDoubleClick(OSBase &osBase) {
+  pages[curPageIDX]->actionDoubleClick(osBase);
+}
+void Pages::runCurrentActionTripleClick(OSBase &osBase) {
+  pages[curPageIDX]->actionTripleClick(osBase);
+}
 
 auto Pages::getCurrentRefreshInterval() -> int {
   return pages[curPageIDX]->getRefreshInterval();

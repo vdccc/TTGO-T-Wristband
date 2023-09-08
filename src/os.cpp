@@ -1,8 +1,4 @@
 #include "os.hpp"
-#include "esp32-hal.h"
-
-#include <iomanip>
-#include <sstream>
 
 OS::OS()
     : config(), ota(
@@ -41,9 +37,19 @@ void OS::buttonClickCallback() {
   loopTimer.set(pages.getCurrentRefreshInterval());
 }
 
-void OS::buttonHoldCallback() {
+void OS::buttonDoubleClickCallback() {
   sleepTimer.reset();
-  pages.runCurrentAction(*this);
+  pages.runCurrentActionDoubleClick(*this);
+}
+
+void OS::buttonTripleClickCallback() {
+  sleepTimer.reset();
+  pages.runCurrentActionTripleClick(*this);
+}
+
+void OS::buttonHeldCallback() {
+  sleepTimer.reset();
+  pages.runCurrentActionHeld(*this);
 }
 
 void OS::setup() {
@@ -70,10 +76,14 @@ void OS::loop() {
     OTA::run();
     pages.drawCurrentPage(*this);
     auto &device = getDevice();
-    if (device.buttonHeld()) {
-      buttonHoldCallback();
-    } else if (device.buttonClicked()) {
+    if (device.buttonClicked()) {
       buttonClickCallback();
+    } else if (device.buttonDoubleClicked()) {
+      buttonDoubleClickCallback();
+    } else if (device.buttonTripleClicked()) {
+      buttonTripleClickCallback();
+    } else if (device.buttonHeld()) {
+      buttonHeldCallback();
     }
   }
   if (sleepTimer.fired()) {

@@ -19,14 +19,21 @@ void WiFiControl::draw(OSBase &osBase) {
   }
 }
 
-void WiFiControl::run(OSBase &osBase) {
-  auto device = osBase.getDevice();
+void WiFiControl::actionHeld(OSBase &osBase) {
   if (Device::wifiEnabled()) {
     Device::wifiOff();
   } else {
     Device::wifiOn();
   }
   osBase.getGFX().drawMessage(0, 48, "Long pressed");
+}
+
+void WiFiControl::actionDoubleClick(OSBase &osBase) {
+  
+}
+
+void WiFiControl::actionTripleClick(OSBase &osBase) {
+  
 }
 
 auto WiFiControl::available() -> bool { return true; }

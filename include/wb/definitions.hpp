@@ -1,7 +1,13 @@
 #pragma once
 
+// touchpad
 #define TP_PIN_PIN 33
 #define TP_PWR_PIN 25
+#define TP_DEBOUNCE_INTERVAL 80
+#define TP_HELD_DELAY 3000
+// 1.5x of TP_DEBOUNCE_INTERVAL should be gud
+#define TP_CLICK_DELAY TP_DEBOUNCE_INTERVAL
+
 #define I2C_SDA_PIN 21
 #define I2C_SCL_PIN 22
 #define IMU_INT_PIN GPIO_NUM_38

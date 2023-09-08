@@ -26,7 +26,7 @@ void Clock::draw(OSBase &osBase) {
   gfx.drawBigCenterMessage(clockString.str());
 }
 
-void Clock::run(OSBase &osBase) {
+void Clock::actionHeld(OSBase &osBase) {
   auto &gfx = osBase.getGFX();
   auto &device = osBase.getDevice();
   auto &ntp = osBase.getNTP();
@@ -38,6 +38,14 @@ void Clock::run(OSBase &osBase) {
   auto curDate = ntp.getNTPDate();
   device.setDate(curDate);
   gfx.drawCenterMessage("synced");
+}
+
+void Clock::actionDoubleClick(OSBase &osBase) {
+  
+}
+
+void Clock::actionTripleClick(OSBase &osBase) {
+  
 }
 
 auto Clock::available() -> bool { return true; }

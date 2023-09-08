@@ -18,7 +18,9 @@ public:
   void setupCurrentPage(OSBase &osBase);
   void teardownCurrentPage(OSBase &osBase);
   void drawCurrentPage(OSBase &osBase);
-  void runCurrentAction(OSBase &osBase);
+  void runCurrentActionHeld(OSBase &osBase);
+  void runCurrentActionDoubleClick(OSBase &osBase);
+  void runCurrentActionTripleClick(OSBase &osBase);
   auto getCurrentRefreshInterval() -> int;
   void nextPage();
   void pushPage(std::unique_ptr<Page> page);

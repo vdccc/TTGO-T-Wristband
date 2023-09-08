@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sstream>
+#include <iomanip>
 
 #include "os/base.hpp"
 #include "os/config.hpp"
@@ -28,5 +29,7 @@ private:
   void otaErrorCallback(otaError err);
 
   void buttonClickCallback();
-  void buttonHoldCallback();
+  void buttonDoubleClickCallback();
+  void buttonTripleClickCallback();
+  void buttonHeldCallback();
 };
