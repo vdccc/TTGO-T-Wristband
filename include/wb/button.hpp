@@ -26,11 +26,11 @@ public:
         debounceInterval(debounceInterval){};
 
   void init();
-  auto read() -> bool;
   auto clicked() -> bool;
   auto doubleClicked() -> bool;
   auto tripleClicked() -> bool;
   auto held() -> bool;
+  auto ready() const -> bool;
 
 private:
   unsigned int pin;
@@ -38,13 +38,17 @@ private:
                            // wasHeld to true
   unsigned int clickDelay; // delay between clicks to double and triple click
   unsigned int debounceInterval;
-  unsigned int lastReleased{0};
+  unsigned int lastReleased{0}; // correct, debounced, logical
   unsigned int lastPressed{0};
+  unsigned int dblastReleased{0}; // used only for debouncing
+  unsigned int dblastPressed{0};
   enum buttonState state { buttonState::BUTTON_RELEASED };
 
   static void buttonISR(void *);
-  static void updateState(wbButton *, unsigned int &&, unsigned int &&);
+  static void updateState(wbButton *, unsigned int const &,
+                          unsigned int const &);
+  static auto debounced(wbButton *, unsigned int const &&) -> bool;
   auto isReleased() const -> bool;
   auto isPressed() const -> bool;
-  void reset();
+  void clearState();
 };

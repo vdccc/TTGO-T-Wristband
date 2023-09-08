@@ -65,6 +65,8 @@ auto Device::buttonDoubleClicked() -> bool { return button.doubleClicked(); }
 
 auto Device::buttonTripleClicked() -> bool { return button.tripleClicked(); }
 
+auto Device::buttonIsReady() -> bool { return button.ready(); }
+
 auto Device::getDate() -> rtcDate { return clock.getDateTime(); }
 
 void Device::setDate(rtcDate date) { clock.setDateTime(date); }

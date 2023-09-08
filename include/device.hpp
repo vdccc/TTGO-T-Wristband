@@ -42,6 +42,7 @@ public:
   auto buttonDoubleClicked() -> bool;
   auto buttonTripleClicked() -> bool;
   auto buttonClicked() -> bool;
+  auto buttonIsReady() -> bool;
 
   // clock
   auto getDate() -> rtcDate;

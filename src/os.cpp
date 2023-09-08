@@ -76,14 +76,16 @@ void OS::loop() {
     OTA::run();
     pages.drawCurrentPage(*this);
     auto &device = getDevice();
-    if (device.buttonClicked()) {
-      buttonClickCallback();
-    } else if (device.buttonDoubleClicked()) {
-      buttonDoubleClickCallback();
-    } else if (device.buttonTripleClicked()) {
-      buttonTripleClickCallback();
-    } else if (device.buttonHeld()) {
-      buttonHeldCallback();
+    if (device.buttonIsReady()) {
+      if (device.buttonClicked()) {
+        buttonClickCallback();
+      } else if (device.buttonDoubleClicked()) {
+        buttonDoubleClickCallback();
+      } else if (device.buttonTripleClicked()) {
+        buttonTripleClickCallback();
+      } else if (device.buttonHeld()) {
+        buttonHeldCallback();
+      }
     }
   }
   if (sleepTimer.fired()) {
