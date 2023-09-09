@@ -1,7 +1,7 @@
 #pragma once
 
-#include <sstream>
 #include <iomanip>
+#include <sstream>
 
 #include "os/base.hpp"
 #include "os/config.hpp"
@@ -13,6 +13,8 @@ class OS : OSBase {
 public:
   OS();
   OS(OS &) = delete;
+  OS(OS &&) = default;
+  ~OS() = default;
 
   void setup();
   void loop();

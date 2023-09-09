@@ -6,7 +6,7 @@
 #define TP_DEBOUNCE_INTERVAL 80
 #define TP_HELD_DELAY 2000
 // 1.5x of TP_DEBOUNCE_INTERVAL should be gud
-#define TP_CLICK_DELAY 500
+#define TP_CLICK_DELAY 300
 
 #define I2C_SDA_PIN 21
 #define I2C_SCL_PIN 22

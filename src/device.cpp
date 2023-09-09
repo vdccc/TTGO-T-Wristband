@@ -1,8 +1,7 @@
 #include "device.hpp"
 
 Device::Device()
-    : config(),
-      button(TP_PIN_PIN, TP_HELD_DELAY, TP_CLICK_DELAY, TP_DEBOUNCE_INTERVAL) {}
+    : config(), button(config.buttonConfig), battery(config.batConfig) {}
 
 void Device::init() {
   if (config.serialEnabled) {
@@ -14,7 +13,7 @@ void Device::init() {
   mpu.init();
   mpu.sleep();
   eeprom.init();
-  wbBattery::init();
+  battery.init();
   button.init();
   wifi.init();
 }
@@ -49,11 +48,11 @@ auto Device::wifiGetRSSI() -> int8_t { return wifi.getRSSI(); }
 
 auto Device::wifiGetSSID() -> std::string { return wifi.getSSID(); }
 
-auto Device::batteryCharging() -> bool { return wbBattery::isCharging(); }
+auto Device::batteryCharging() -> bool { return battery.isCharging(); }
 
-auto Device::batteryPct() -> int { return wbBattery::getPercent(); }
+auto Device::batteryPct() -> u8 { return battery.getPercent(); }
 
-auto Device::batteryVoltage() -> float { return wbBattery::getVoltage(); }
+auto Device::batteryVoltage() -> float { return battery.getVoltage(); }
 
 auto Device::buttonHeld() -> bool { return button.held(); }
 

@@ -37,9 +37,9 @@ public:
   auto wifiGetSSID() -> std::string;
 
   // battery
-  static auto batteryCharging() -> bool;
-  static auto batteryPct() -> int;
-  static auto batteryVoltage() -> float;
+  auto batteryCharging() -> bool;
+  auto batteryPct() -> u8;
+  auto batteryVoltage() -> float;
 
   // button
   auto buttonHeld() -> bool;
@@ -54,6 +54,7 @@ public:
 
 private:
   DeviceConfig config;
+
   wbButton button;
   wbWifi wifi;
   wbClock clock;

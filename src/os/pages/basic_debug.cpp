@@ -21,7 +21,7 @@ void BasicDebug::draw(OSBase &osBase) {
   } else {
     gfx.drawMessage(0, 16, "WiFi Disconnected");
   }
-  if (Device::batteryCharging()) {
+  if (device.batteryCharging()) {
     gfx.drawMessage(0, 64, "Battery charging");
   } else {
     gfx.drawMessage(0, 64, "                ");

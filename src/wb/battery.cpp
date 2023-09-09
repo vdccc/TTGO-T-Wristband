@@ -1,18 +1,16 @@
 #include "wb/battery.hpp"
-#include "wb/definitions.hpp"
+#include "wb/battery_config.hpp"
 
-// FIXME: make it less "static"
-
-void wbBattery::init() {
-  pinMode(CHARGE_PIN, INPUT_PULLUP);
-  pinMode(BATT_ADC_PIN, INPUT);
-  analogSetPinAttenuation(BATT_ADC_PIN, ADC_11db);
+void wbBattery::init() const {
+  pinMode(config.chrgPin, static_cast<u8>(config.chrgPinPullup));
+  pinMode(config.adcPin, INPUT);
+  analogSetPinAttenuation(config.adcPin, config.adcAtt);
 }
 
-auto wbBattery::getVoltage() -> float {
-  const auto val = analogRead(BATT_ADC_PIN);
-  return (static_cast<float>(val) / BATTERY_ADC_MAX_RANGE) *
-         BATTERY_ADC_MAX_VOLTAGE * BATTERY_VOLTAGE_DIVIDER_COEF;
+auto wbBattery::getVoltage() const -> float {
+  const auto val = analogRead(config.adcPin);
+  return (static_cast<float>(val) / config.adcMaxRes) * config.adcMaxV *
+         config.adcVDivCoef;
 }
 
 auto wbBattery::clamp(const int &&val, const int &&low, const int &&high)
@@ -26,11 +24,13 @@ auto wbBattery::clamp(const int &&val, const int &&low, const int &&high)
   return val;
 }
 
-auto wbBattery::getPercent() -> int {
-  const float volts = getVoltage();
-  float const percentage =
-      ((volts - BATTERY_MIN_V) / BATTERY_RANGE) * BATTERY_MAX_PERCENT;
-  return clamp((int)percentage, BATTERY_MIN_PERCENT, BATTERY_MAX_PERCENT);
+auto wbBattery::getPercent() const -> u8 {
+  const auto volts = getVoltage();
+  const auto batRange = config.batMaxV - config.batMinV;
+  float const percentage = ((volts - config.batMinV) / batRange) * BAT_MAX_PCT;
+  return clamp(static_cast<int>(percentage), BAT_MIN_PCT, BAT_MAX_PCT);
 }
 
-auto wbBattery::isCharging() -> bool { return digitalRead(CHARGE_PIN) == LOW; }
+auto wbBattery::isCharging() const -> bool {
+  return digitalRead(config.chrgPin) == LOW;
+}

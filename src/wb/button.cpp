@@ -1,42 +1,46 @@
 #include "wb/button.hpp"
 
-// FIXME: avoid usag of defines
 void wbButton::init() {
-  pinMode(TP_PWR_PIN, PULLUP);
-  digitalWrite(TP_PWR_PIN, HIGH);
-  attachInterruptArg(pin, buttonISR, this, CHANGE);
+  pinMode(config.pwrPin, PULLUP);
+  digitalWrite(config.pwrPin, HIGH);
+  attachInterruptArg(config.pin, buttonISR, this, CHANGE);
 }
 
-auto wbButton::isPressed() const -> bool { return digitalRead(pin) == HIGH; }
+auto wbButton::isPressed() const -> bool {
+  return digitalRead(config.pin) == HIGH;
+}
 
-auto wbButton::isReleased() const -> bool { return digitalRead(pin) == LOW; }
+auto wbButton::isReleased() const -> bool {
+  return digitalRead(config.pin) == LOW;
+}
 
-void wbButton::updateState(wbButton *button, unsigned int const &heldFor,
-                           unsigned int const &releasedFor) {
-  if (heldFor > button->holdDelay) {
+void wbButton::updateState(wbButton *button, u32 const &heldFor,
+                           u32 const &releasedFor) {
+  if (heldFor > button->config.holdDelay) {
     button->state = buttonState::BUTTON_HELD;
-  } else if (releasedFor < button->clickDelay && heldFor < button->holdDelay &&
+  } else if (releasedFor < button->config.clickDelay &&
+             heldFor < button->config.holdDelay &&
              button->state == buttonState::BUTTON_DOUBLE_CLICKED) {
     button->state = buttonState::BUTTON_TRIPLE_CLICKED;
-  } else if (releasedFor < button->clickDelay && heldFor < button->holdDelay &&
+  } else if (releasedFor < button->config.clickDelay &&
+             heldFor < button->config.holdDelay &&
              button->state == buttonState::BUTTON_CLICKED) {
     button->state = buttonState::BUTTON_DOUBLE_CLICKED;
-  } else if (heldFor < button->holdDelay &&
+  } else if (heldFor < button->config.holdDelay &&
              button->state == buttonState::BUTTON_RELEASED) {
     button->state = buttonState::BUTTON_CLICKED;
   }
 }
 
-auto wbButton::debounced(wbButton *button, unsigned int const &&curTime)
-    -> bool {
+auto wbButton::debounced(wbButton *button, u32 const &&curTime) -> bool {
   if (button->isReleased()) {
     const auto heldFor = curTime - button->dblastPressed;
     button->dblastReleased = curTime;
-    return heldFor > button->debounceInterval;
+    return heldFor > button->config.debounceInterval;
   }
   const auto releasedFor = curTime - button->dblastReleased;
   button->dblastPressed = curTime;
-  return releasedFor > button->debounceInterval;
+  return releasedFor > button->config.debounceInterval;
 }
 
 void wbButton::buttonISR(void *buttonPtr) {
@@ -58,7 +62,7 @@ void wbButton::buttonISR(void *buttonPtr) {
 
 auto wbButton::ready() const -> bool {
   const auto curTime = millis();
-  return (curTime - lastReleased > clickDelay) && isReleased();
+  return (curTime - lastReleased > config.clickDelay) && isReleased();
 }
 
 void wbButton::clearState() { state = buttonState::BUTTON_RELEASED; }

@@ -1,13 +1,10 @@
 #pragma once
 
-// FIXME: pile of headers
 #include <esp32-hal-gpio.h>
-#include <esp32-hal.h>
-#include <esp_attr.h>
 #include <functional>
-#include <sys/_types.h>
-#include <xtensa/config/specreg.h>
 
+#include "types.hpp"
+#include "wb/button_config.hpp"
 #include "wb/definitions.hpp"
 
 enum buttonState {
@@ -20,10 +17,7 @@ enum buttonState {
 
 class wbButton {
 public:
-  wbButton(unsigned int pin, unsigned int holdDelay, unsigned int clickDelay,
-           unsigned int debounceInterval)
-      : pin(pin), holdDelay(holdDelay), clickDelay(clickDelay),
-        debounceInterval(debounceInterval){};
+  wbButton(ButtonConfig config) : config(config){};
 
   void init();
   auto clicked() -> bool;
@@ -33,21 +27,17 @@ public:
   auto ready() const -> bool;
 
 private:
-  unsigned int pin;
-  unsigned int holdDelay;  // delay between press and release enough to set
-                           // wasHeld to true
-  unsigned int clickDelay; // delay between clicks to double and triple click
-  unsigned int debounceInterval;
-  unsigned int lastReleased{0}; // correct, debounced, logical
-  unsigned int lastPressed{0};
-  unsigned int dblastReleased{0}; // used only for debouncing
-  unsigned int dblastPressed{0};
+  ButtonConfig config;
+
+  u32 lastReleased{0}; // correct, debounced, logical
+  u32 lastPressed{0};
+  u32 dblastReleased{0}; // used only for debouncing
+  u32 dblastPressed{0};
   enum buttonState state { buttonState::BUTTON_RELEASED };
 
   static void buttonISR(void *);
-  static void updateState(wbButton *, unsigned int const &,
-                          unsigned int const &);
-  static auto debounced(wbButton *, unsigned int const &&) -> bool;
+  static void updateState(wbButton *, u32 const &, u32 const &);
+  static auto debounced(wbButton *, u32 const &&) -> bool;
   auto isReleased() const -> bool;
   auto isPressed() const -> bool;
   void clearState();
