@@ -14,6 +14,9 @@ void WiFiControl::draw(OSBase &osBase) {
              << (int)device.wifiGetRSSI();
     gfx.drawMessage(0, 16, wifiRSSI.str());
     gfx.drawMessage(0, 32, "SSID: " + device.wifiGetSSID());
+    std::stringstream ipString{};
+    ipString << "IP: " << device.wifiGetIP().toString().c_str();
+    gfx.drawMessage(0, 48, ipString.str());
   } else {
     gfx.drawMessage(0, 0, "WiFi Disabled");
   }
@@ -28,15 +31,11 @@ void WiFiControl::actionHeld(OSBase &osBase) {
   osBase.getGFX().drawMessage(0, 48, "Long pressed");
 }
 
-void WiFiControl::actionDoubleClick(OSBase &osBase) {
-  
-}
+void WiFiControl::actionDoubleClick(OSBase &osBase) {}
 
-void WiFiControl::actionTripleClick(OSBase &osBase) {
-  
-}
+void WiFiControl::actionTripleClick(OSBase &osBase) {}
 
-auto WiFiControl::available() -> bool { return true; }
+auto WiFiControl::available(OSBase & /*osBase*/) -> bool { return true; }
 
 auto WiFiControl::getRefreshInterval() -> int {
   return PAGE_DEFAULT_REFRESH_INTERVAL;

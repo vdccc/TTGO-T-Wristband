@@ -1,15 +1,18 @@
 #pragma once
 
 #include <EEPROM.h>
+#include <IPAddress.h>
 #include <Wire.h>
 #include <esp32-hal-gpio.h>
+#include <esp_sleep.h>
 #include <functional>
+#include <sys/_stdint.h>
 
 #include "device/config.hpp"
-#include "esp_sleep.h"
 #include "wb/battery.hpp"
 #include "wb/button.hpp"
 #include "wb/clock.hpp"
+#include "wb/definitions.hpp"
 #include "wb/eeprom.hpp"
 #include "wb/mpu.hpp"
 #include "wb/wifi.hpp"
@@ -29,13 +32,14 @@ public:
   void wifiConnect(std::string const &apName, std::string const &apPassword);
   static auto wifiEnabled() -> bool;
   static auto wifiConnected() -> bool;
+  auto wifiGetIP() -> IPAddress;
   auto wifiGetRSSI() -> int8_t;
   auto wifiGetSSID() -> std::string;
 
   // battery
   static auto batteryCharging() -> bool;
-  auto batteryPct() -> int;
-  auto batteryVoltage() -> float;
+  static auto batteryPct() -> int;
+  static auto batteryVoltage() -> float;
 
   // button
   auto buttonHeld() -> bool;

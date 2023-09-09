@@ -1,8 +1,4 @@
 #include "device.hpp"
-#include "esp_sleep.h"
-#include "wb/clock.hpp"
-#include "wb/definitions.hpp"
-#include <sys/_stdint.h>
 
 Device::Device()
     : config(),
@@ -18,7 +14,7 @@ void Device::init() {
   mpu.init();
   mpu.sleep();
   eeprom.init();
-  battery.init();
+  wbBattery::init();
   button.init();
   wifi.init();
 }
@@ -47,15 +43,17 @@ auto Device::wifiConnected() -> bool { return wbWifi::is_connected(); }
 
 auto Device::wifiEnabled() -> bool { return wbWifi::is_enabled(); }
 
+auto Device::wifiGetIP() -> IPAddress { return wifi.getIP(); }
+
 auto Device::wifiGetRSSI() -> int8_t { return wifi.getRSSI(); }
 
 auto Device::wifiGetSSID() -> std::string { return wifi.getSSID(); }
 
 auto Device::batteryCharging() -> bool { return wbBattery::isCharging(); }
 
-auto Device::batteryPct() -> int { return battery.getPercent(); }
+auto Device::batteryPct() -> int { return wbBattery::getPercent(); }
 
-auto Device::batteryVoltage() -> float { return battery.getVoltage(); }
+auto Device::batteryVoltage() -> float { return wbBattery::getVoltage(); }
 
 auto Device::buttonHeld() -> bool { return button.held(); }
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IPAddress.h"
 #include <WiFi.h>
 #include <WiFiType.h>
 #include <esp_wifi_types.h>
@@ -17,8 +18,9 @@ public:
   auto connect(std::string const &apName, std::string const &apPwd) -> bool;
   static auto is_connected() -> bool;
   void disconnect();
-  auto getRSSI() -> int8_t;
-  auto getSSID() -> string;
+  auto getRSSI() const -> int8_t;
+  auto getSSID() const -> string;
+  auto getIP() const -> IPAddress;
 
 private:
   WiFiClass *wifi;

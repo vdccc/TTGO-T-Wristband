@@ -1,19 +1,18 @@
 #include "wb/battery.hpp"
+#include "wb/definitions.hpp"
+
+// FIXME: make it less "static"
 
 void wbBattery::init() {
-  esp_adc_cal_characteristics_t adc_chars;
-  const esp_adc_cal_value_t val_type = esp_adc_cal_characterize(
-      (adc_unit_t)ADC_UNIT_1, (adc_atten_t)ADC1_CHANNEL_6,
-      (adc_bits_width_t)ADC_WIDTH_BIT_12, vref, &adc_chars);
-  if (val_type == ESP_ADC_CAL_VAL_EFUSE_VREF) {
-    vref = adc_chars.vref;
-  }
   pinMode(CHARGE_PIN, INPUT_PULLUP);
+  pinMode(BATT_ADC_PIN, INPUT);
+  analogSetPinAttenuation(BATT_ADC_PIN, ADC_11db);
 }
 
-auto wbBattery::getVoltage() const -> float {
-  const uint16_t val = analogRead(BATT_ADC_PIN);
-  return ((float)val / 4095.0) * 2.0 * 3.3 * (vref / 1000.0);
+auto wbBattery::getVoltage() -> float {
+  const auto val = analogRead(BATT_ADC_PIN);
+  return (static_cast<float>(val) / BATTERY_ADC_MAX_RANGE) *
+         BATTERY_ADC_MAX_VOLTAGE * BATTERY_VOLTAGE_DIVIDER_COEF;
 }
 
 auto wbBattery::clamp(const int &&val, const int &&low, const int &&high)
@@ -27,10 +26,10 @@ auto wbBattery::clamp(const int &&val, const int &&low, const int &&high)
   return val;
 }
 
-auto wbBattery::getPercent() const -> int {
+auto wbBattery::getPercent() -> int {
   const float volts = getVoltage();
   float const percentage =
-      ((volts - BATTERY_MIN_V) * BATTERY_MAX_PERCENT) / BATTERY_RANGE;
+      ((volts - BATTERY_MIN_V) / BATTERY_RANGE) * BATTERY_MAX_PERCENT;
   return clamp((int)percentage, BATTERY_MIN_PERCENT, BATTERY_MAX_PERCENT);
 }
 

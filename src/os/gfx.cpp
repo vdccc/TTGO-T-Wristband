@@ -1,5 +1,5 @@
 #include "os/gfx.hpp"
-#include "TFT_eSPI.h"
+#include "wb/definitions.hpp"
 
 void GFX::init() {
   tft.init();
@@ -14,7 +14,8 @@ void GFX::sleep() {
   blankScreen();
   tft.setTextDatum(MC_DATUM);
   drawCenterMessage("going to sleep");
-  delay(1000);
+  delay(800);
+  blankScreen();
   tft.writecommand(TFT_SWRST);
   delay(TFT_ST7735_SWRESET_DELAY);
   tft.writecommand(ST7735_SLPIN);
@@ -36,22 +37,27 @@ void GFX::setBrightness(int brightness) {
   ledcWrite(TFT_LEDC_CHAN, clamp(brightness));
 }
 
-void GFX::blankScreen() { tft.fillScreen(TFT_BLACK); }
+void GFX::blankScreen() { tft.fillScreen(TFT_SKYBLUE); }
 
 void GFX::drawBigCenterMessage(std::string const &&msg) {
-  tft.setTextColor(TFT_BLUE, TFT_BLACK);
+  tft.setTextColor(GFX_DEFAULT_FG, GFX_DEFAULT_BG);
   tft.setTextDatum(CC_DATUM);
   tft.drawString(msg.c_str(), tft.width() / 2, tft.height() / 2, 6);
 }
 
 void GFX::drawCenterMessage(std::string const &&msg) {
-  tft.setTextColor(TFT_CYAN, TFT_BLACK);
+  tft.setTextColor(GFX_DEFAULT_FG, GFX_DEFAULT_BG);
   tft.setTextDatum(CC_DATUM);
   tft.drawString(msg.c_str(), tft.width() / 2, tft.height() / 2, 2);
 }
 
-void GFX::drawMessage(int posX, int posY, std::string const &&msg) {
-  tft.setTextColor(TFT_CYAN, TFT_BLACK);
+void GFX::drawMessage(int posX, int posY, std::string const &msg) {
+  drawMessage(posX, posY, msg, GFX_DEFAULT_FG, GFX_DEFAULT_BG, 2);
+}
+
+void GFX::drawMessage(int posX, int posY, std::string const &msg, int fgColor,
+                      int bgColor, int font) {
   tft.setTextDatum(TL_DATUM);
+  tft.setTextColor(fgColor, bgColor);
   tft.drawString(msg.c_str(), posX, posY, 2);
 }

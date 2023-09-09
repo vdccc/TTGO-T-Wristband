@@ -22,7 +22,7 @@ public:
   void runCurrentActionDoubleClick(OSBase &osBase);
   void runCurrentActionTripleClick(OSBase &osBase);
   auto getCurrentRefreshInterval() -> int;
-  void nextPage();
+  void nextPage(OSBase &osBase);
   void pushPage(std::unique_ptr<Page> page);
 
 private:

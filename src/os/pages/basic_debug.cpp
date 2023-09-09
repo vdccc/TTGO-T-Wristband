@@ -49,7 +49,9 @@ void BasicDebug::actionTripleClick(OSBase &osBase) {
   osBase.getGFX().drawMessage(0, 48, "Triple clicked");
 }
 
-auto BasicDebug::available() -> bool { return true; }
+auto BasicDebug::available(OSBase &osBase) -> bool {
+  return osBase.debugActive();
+}
 
 auto BasicDebug::getRefreshInterval() -> int {
   return PAGE_DEFAULT_REFRESH_INTERVAL;

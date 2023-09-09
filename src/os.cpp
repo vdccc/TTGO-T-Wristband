@@ -10,6 +10,7 @@ OS::OS()
       loopTimer(config.loopDelay), sleepTimer(config.sleepDelay) {}
 
 void OS::otaStartCallback() {
+  getGFX().blankScreen();
   getGFX().drawCenterMessage("OTA STRT");
   delay(500);
 }
@@ -31,7 +32,7 @@ void OS::buttonClickCallback() {
   sleepTimer.reset();
   pages.teardownCurrentPage(*this);
   getGFX().blankScreen();
-  pages.nextPage();
+  pages.nextPage(*this);
   pages.setupCurrentPage(*this);
   pages.drawCurrentPage(*this);
   loopTimer.set(pages.getCurrentRefreshInterval());

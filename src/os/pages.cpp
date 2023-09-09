@@ -36,9 +36,9 @@ auto Pages::getCurrentRefreshInterval() -> int {
   return pages[curPageIDX]->getRefreshInterval();
 }
 
-void Pages::nextPage() {
+void Pages::nextPage(OSBase &osBase) {
   curPageIDX = (curPageIDX + 1) % pages.size();
-  for (; !pages[curPageIDX]->available();) {
+  for (; !pages[curPageIDX]->available(osBase);) {
     curPageIDX = (curPageIDX + 1) % pages.size();
   }
 }

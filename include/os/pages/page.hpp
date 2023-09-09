@@ -13,6 +13,6 @@ public:
   virtual void actionHeld(OSBase &osBase) = 0;
   virtual void actionDoubleClick(OSBase &osBase) = 0;
   virtual void actionTripleClick(OSBase &osBase) = 0;
-  virtual auto available() -> bool = 0;
+  virtual auto available(OSBase &osBase) -> bool = 0;
   virtual auto getRefreshInterval() -> int = 0;
 };

@@ -17,13 +17,16 @@ void Clock::draw(OSBase &osBase) {
   auto &gfx = osBase.getGFX();
   auto &device = osBase.getDevice();
   auto date = device.getDate();
-  stringstream clockString{};
   stringstream hourString{};
   stringstream minuteString{};
+  stringstream clockString{};
   hourString << std::setfill('0') << std::setw(2) << (int)date.hour;
   minuteString << std::setfill('0') << std::setw(2) << (int)date.minute;
   clockString << hourString.str() << ":" << minuteString.str();
   gfx.drawBigCenterMessage(clockString.str());
+  stringstream batteryString{};
+  batteryString << std::setw(4) << (int)device.batteryPct() << "%";
+  gfx.drawMessage(100, 0, batteryString.str());
 }
 
 void Clock::actionHeld(OSBase &osBase) {
@@ -40,15 +43,13 @@ void Clock::actionHeld(OSBase &osBase) {
   gfx.drawCenterMessage("synced");
 }
 
-void Clock::actionDoubleClick(OSBase &osBase) {
-  
-}
+void Clock::actionDoubleClick(OSBase &osBase) {}
 
 void Clock::actionTripleClick(OSBase &osBase) {
-  
+  osBase.setDebug(!osBase.debugActive());
 }
 
-auto Clock::available() -> bool { return true; }
+auto Clock::available(OSBase & /*osBase*/) -> bool { return true; }
 
 auto Clock::getRefreshInterval() -> int {
   return PAGE_DEFAULT_REFRESH_INTERVAL;
